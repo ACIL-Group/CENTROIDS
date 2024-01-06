@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Wed Dec  6 09:49:21 2023
+
+# Description
+This program fits a xgboost tree to the neurogenetic data and then uses SHAP to find the 10 most influential phenotype features
+
+Created on Wed Dec 6 09:49:21 2023
 
 @author: danielhier
 """
-'''
-This program fits a xgboost tree to the neurogenetic data and then uses SHAP to find the 10 most influential phenotype features
-'''
+
 '''
 Make sure that these libraries are installed
 '''
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import xgboost as xgb
@@ -26,7 +29,6 @@ neurogenetic = pd.read_csv(directory_path + '/neurogenetic.csv')
 # Extract labels and features
 labels = neurogenetic[['type', 'name']]
 features = neurogenetic.iloc[:, 2:]
-
 
 # Convert feature values to 0 or 1
 features = features.applymap(lambda x: 1 if x > 0 else 0)
