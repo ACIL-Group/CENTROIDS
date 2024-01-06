@@ -30,7 +30,7 @@ data_file = Path("data", "neurogenetic.csv")
 # EXPERIMENT
 # -----------------------------------------------------------------------------
 
-# Load your data into a Pandas DataFrame (replace 'neurogenetic.csv' with your data file)
+# Load your data into a Pandas DataFrame
 neurogenetic = pd.read_csv(data_file)
 
 # Extract labels and features
