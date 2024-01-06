@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+    SHAP_for_neurogenetic_diseases.py
 
 # Description
 This program fits a xgboost tree to the neurogenetic data and then uses SHAP to find the 10 most influential phenotype features
 
+# Attribution
 Created on Wed Dec 6 09:49:21 2023
-
 @author: danielhier
 """
 

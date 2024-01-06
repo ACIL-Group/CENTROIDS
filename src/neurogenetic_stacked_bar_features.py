@@ -1,17 +1,37 @@
+"""
+    neurogenetic_stacked_bar_features.py
 
-'''
+# Description
 This program reads a CSV file of neurogenetic disease phenotypes and creates a stacked bar chart
 Neurogenetic disease are Charcot-Marie-Tooth, cerebellar ataxia, and hereditary spinal paraperesis
 There are 31 different disease phenotypes
-'''
+
+# Attribution
+Author: Daniel B. Hier MD
+"""
+
+# -----------------------------------------------------------------------------
+# DEPENDENCIES
+# -----------------------------------------------------------------------------
+
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
+
+# -----------------------------------------------------------------------------
+# CONFIGURATION
+# -----------------------------------------------------------------------------
+
 # Change the working directory to where your data is located
 os.chdir('/Users/danielhier/desktop/t_SNE')
 
 # Define the path to the desired directory
 directory_path = "/Users/danielhier/Desktop/t_SNE"
+
+# -----------------------------------------------------------------------------
+# EXPERIMENT
+# -----------------------------------------------------------------------------
+
 # Load your data into a Pandas DataFrame (replace 'neurogenetic.csv' with your data file)
 neurogenetic = pd.read_csv(directory_path + '/neurogenetic.csv')
 # Extract labels and features

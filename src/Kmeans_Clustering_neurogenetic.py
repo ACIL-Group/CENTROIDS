@@ -1,10 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Thu Dec  7 20:48:12 2023
+    Kmeans_Clustering_neurogenetic.py
 
+# Attribution
+Created on Thu Dec 7 20:48:12 2023
 @author: danielhier
 """
+
+# -----------------------------------------------------------------------------
+# DEPENDENCIES
+# -----------------------------------------------------------------------------
 
 import pandas as pd
 import numpy as np
@@ -12,8 +18,16 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 import umap.umap_ as umap  # Corrected import statement
 
+# -----------------------------------------------------------------------------
+# CONFIGURATION
+# -----------------------------------------------------------------------------
+
 # Define the path to the directory
 directory_path = "/Users/danielhier/Desktop/t_SNE"
+
+# -----------------------------------------------------------------------------
+# EXPERIMENT
+# -----------------------------------------------------------------------------
 
 # Load your data into a Pandas DataFrame (replace 'neurogenetic.csv' with your data file)
 neurogenetic = pd.read_csv(directory_path + '/neurogenetic.csv')
@@ -168,10 +182,6 @@ for i, row in cluster_centroids.iterrows():
         plt.annotate(f'Cluster {cluster_num}', (x, y), xytext=(20, 70), textcoords='offset points', fontsize=14, fontweight='bold', ha='center', va='center',
                      arrowprops=dict(arrowstyle='->', color='black'))
 
-
-
-
-
 # Plot ground_truth centroids with different colors
 for i, row in ground_truth_centroids.iterrows():
     x, y, ground_truth_label = row['x_dim'], row['y_dim'], row['ground_truth_labels']
@@ -187,8 +197,6 @@ for i, row in ground_truth_centroids.iterrows():
     else:
         plt.annotate('Cerebellar Ataxia', (x, y), xytext=(-40, -80), textcoords='offset points', fontsize=14, ha='center', fontweight='bold', va='bottom',
                      arrowprops=dict(arrowstyle='->', color='black'))
-
-
 
 # Plot feature centroids with grey markers and text annotations
 for i, row in feature_centroids.iterrows():

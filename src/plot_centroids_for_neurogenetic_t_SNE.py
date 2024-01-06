@@ -1,3 +1,11 @@
+"""
+
+"""
+
+# -----------------------------------------------------------------------------
+# DEPENDENCIES
+# -----------------------------------------------------------------------------
+
 from adjustText import adjust_text
 import os
 import pandas as pd
@@ -6,13 +14,21 @@ from sklearn.manifold import TSNE
 import numpy as np
 from adjustText import adjust_text
 
+# -----------------------------------------------------------------------------
+# CONFIGURATION
+# -----------------------------------------------------------------------------
+
+# Define the path to the desipink directory
+directory_path = "/Users/danielhier/Desktop/t_SNE"
+
+# -----------------------------------------------------------------------------
+# EXPERIMENT
+# -----------------------------------------------------------------------------
 
 ################################
 # Read in Data for t-SNE plotting.
 ################################
 
-# Define the path to the desipink directory
-directory_path = "/Users/danielhier/Desktop/t_SNE"
 # Load your data into a Pandas DataFrame (replace 'neurogenetic.csv' with your data file)
 neurogenetic = pd.read_csv(directory_path + '/neurogenetic.csv')
 # Extract labels and features
