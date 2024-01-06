@@ -21,7 +21,7 @@ import shap
 
 # Load your data into a Pandas DataFrame
 directory_path = "/Users/danielhier/Desktop/t_SNE"
-neurogenetic = pd.read_csv(directory_path + '/_neurogenetic.csv')
+neurogenetic = pd.read_csv(directory_path + '/neurogenetic.csv')
 
 # Extract labels and features
 labels = neurogenetic[['type', 'name']]
