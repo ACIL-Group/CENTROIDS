@@ -4,16 +4,16 @@
     SHAP_for_neurogenetic_diseases.py
 
 # Description
-This program fits a xgboost tree to the neurogenetic data and then uses SHAP to find the 10 most influential phenotype features
+This program fits a xgboost tree to the neurogenetic data and then uses SHAP to find the 10 most influential phenotype features.
 
 # Attribution
 Created on Wed Dec 6 09:49:21 2023
 @author: danielhier
 """
 
-'''
-Make sure that these libraries are installed
-'''
+# -----------------------------------------------------------------------------
+# DEPENDENCIES
+# -----------------------------------------------------------------------------
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -22,10 +22,20 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import LabelEncoder
 import shap
+from pathlib import Path
+
+# -----------------------------------------------------------------------------
+# CONFIGURATION
+# -----------------------------------------------------------------------------
+
+data_path = Path("data", "neurogenetic.csv")
+
+# -----------------------------------------------------------------------------
+# EXPERIMENT
+# -----------------------------------------------------------------------------
 
 # Load your data into a Pandas DataFrame
-directory_path = "/Users/danielhier/Desktop/t_SNE"
-neurogenetic = pd.read_csv(directory_path + '/neurogenetic.csv')
+neurogenetic = pd.read_csv(data_path)
 
 # Extract labels and features
 labels = neurogenetic[['type', 'name']]
@@ -69,7 +79,6 @@ explainer = shap.Explainer(clf, X_train)
 
 # Calculate SHAP values for your test data
 shap_values = explainer.shap_values(X_test)
-
 
 # Create a mapping from encoded class labels to disease names
 class_label_to_disease = {label: disease for label, disease in zip(label_encoder.classes_, df_neurogenetic['type'])}
