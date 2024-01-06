@@ -17,20 +17,21 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 import umap.umap_ as umap  # Corrected import statement
+from pathlib import Path
 
 # -----------------------------------------------------------------------------
 # CONFIGURATION
 # -----------------------------------------------------------------------------
 
-# Define the path to the directory
-directory_path = "/Users/danielhier/Desktop/t_SNE"
+# Point to the data file
+data_file = Path("data", "neurogenetic.csv")
 
 # -----------------------------------------------------------------------------
 # EXPERIMENT
 # -----------------------------------------------------------------------------
 
 # Load your data into a Pandas DataFrame (replace 'neurogenetic.csv' with your data file)
-neurogenetic = pd.read_csv(directory_path + '/neurogenetic.csv')
+neurogenetic = pd.read_csv(data_file)
 
 # Extract labels and features
 labels = neurogenetic[['type', 'name']]

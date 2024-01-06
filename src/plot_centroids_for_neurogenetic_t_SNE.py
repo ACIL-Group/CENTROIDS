@@ -7,19 +7,19 @@
 # -----------------------------------------------------------------------------
 
 from adjustText import adjust_text
-import os
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.manifold import TSNE
 import numpy as np
 from adjustText import adjust_text
+from pathlib import Path
 
 # -----------------------------------------------------------------------------
 # CONFIGURATION
 # -----------------------------------------------------------------------------
 
-# Define the path to the desipink directory
-directory_path = "/Users/danielhier/Desktop/t_SNE"
+# Point to the data file
+data_file = Path("data", "neurogenetic.csv")
 
 # -----------------------------------------------------------------------------
 # EXPERIMENT
@@ -29,8 +29,9 @@ directory_path = "/Users/danielhier/Desktop/t_SNE"
 # Read in Data for t-SNE plotting.
 ################################
 
-# Load your data into a Pandas DataFrame (replace 'neurogenetic.csv' with your data file)
-neurogenetic = pd.read_csv(directory_path + '/neurogenetic.csv')
+# Load your data into a Pandas DataFrame
+neurogenetic = pd.read_csv(data_file)
+
 # Extract labels and features
 labels = neurogenetic[['type', 'name']]
 features = neurogenetic.iloc[:, 2:]
@@ -163,7 +164,11 @@ for feature in features_to_consider:
             plt.text(mean_x, mean_y, feature, fontsize=14, fontweight='bold', ha='center'))
 
 # Use adjust_text to automatically adjust the annotations to avoid overlap with straight-line arrows
-adjust_text(annotation_texts, arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=0.0"), expand_text=(1.2, 1.2))
+adjust_text(
+    annotation_texts,
+    arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=0.0"),
+    # expand_text=(1.2, 1.2)
+)
 
 print(features_means)
 plt.grid(True)
@@ -172,9 +177,6 @@ group_type='neurogenetic'
 filename =plot_type + '_' + group_type
 # Save the plot as an image file with a higher dpi value and adjusted legend position
 plt.savefig(filename, dpi=600, bbox_inches='tight', bbox_extra_artists=[legend])
-
-
-
 
 plt.show()
 # Assuming you have a DataFrame named 'df'

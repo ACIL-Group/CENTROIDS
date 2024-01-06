@@ -28,14 +28,15 @@ from pathlib import Path
 # CONFIGURATION
 # -----------------------------------------------------------------------------
 
-data_path = Path("data", "neurogenetic.csv")
+# Point to the data file
+data_file = Path("data", "neurogenetic.csv")
 
 # -----------------------------------------------------------------------------
 # EXPERIMENT
 # -----------------------------------------------------------------------------
 
 # Load your data into a Pandas DataFrame
-neurogenetic = pd.read_csv(data_path)
+neurogenetic = pd.read_csv(data_file)
 
 # Extract labels and features
 labels = neurogenetic[['type', 'name']]

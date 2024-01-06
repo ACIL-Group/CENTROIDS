@@ -17,23 +17,22 @@ Author: Daniel B. Hier MD
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
+from pathlib import Path
 
 # -----------------------------------------------------------------------------
 # CONFIGURATION
 # -----------------------------------------------------------------------------
 
-# Change the working directory to where your data is located
-os.chdir('/Users/danielhier/desktop/t_SNE')
-
-# Define the path to the desired directory
-directory_path = "/Users/danielhier/Desktop/t_SNE"
+# Point to the data file
+data_file = Path("data", "neurogenetic.csv")
 
 # -----------------------------------------------------------------------------
 # EXPERIMENT
 # -----------------------------------------------------------------------------
 
-# Load your data into a Pandas DataFrame (replace 'neurogenetic.csv' with your data file)
-neurogenetic = pd.read_csv(directory_path + '/neurogenetic.csv')
+# Load your data into a Pandas DataFrame
+neurogenetic = pd.read_csv(data_file)
+
 # Extract labels and features
 labels = neurogenetic[['type', 'name']]
 features = neurogenetic.iloc[:, 2:]
