@@ -23,8 +23,20 @@ from pathlib import Path
 # CONFIGURATION
 # -----------------------------------------------------------------------------
 
+# Declare the top-level data and output paths
+data_dir = Path("data")
+out_dir = Path("out", "bar_features")
+out_dir.mkdir(exist_ok=True, parents=True)
+
 # Point to the data file
-data_file = Path("data", "neurogenetic.csv")
+data_file = data_dir.joinpath("neurogenetic.csv")
+
+# Name the output files
+out_csv = out_dir.joinpath("neurogenetic_diseases_binary_coded.csv")
+out_bar_chart = out_dir.joinpath("stacked_bar_chart_neurogenetic.png")
+
+# Set the DPI for each plot
+DPI = 600
 
 # -----------------------------------------------------------------------------
 # EXPERIMENT
@@ -42,7 +54,7 @@ features = features.applymap(lambda x: 1 if x > 0 else 0)
 # Define custom colors for each group
 # Concatenate the labels DataFrame and tsne_df along the columns axis
 merged_df = pd.concat([labels, features], axis=1)
-merged_df.to_csv('neurogenetic_diseases_binary_coded.csv')
+merged_df.to_csv(out_csv)
 # Now, merged_df contains four columns: 'type', 'name', 'tsne_dim1', and 'tsne_dim2'
 # Sort the merged_df by the 'type' column
 
@@ -85,5 +97,5 @@ plt.legend(legend_labels, unique_labels, title='Disease', loc='upper right')
 # Show the chart
 plt.xticks(rotation=90)  # Rotate x-axis labels for better readability
 plt.tight_layout()  # Ensure the labels fit within the figure boundaries
-plt.savefig('stacked_bar_chart_neurogenetic.png', dpi=600, bbox_inches='tight')
+plt.savefig(out_bar_chart, dpi=DPI, bbox_inches='tight')
 plt.show()

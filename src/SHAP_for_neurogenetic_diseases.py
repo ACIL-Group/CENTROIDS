@@ -28,8 +28,19 @@ from pathlib import Path
 # CONFIGURATION
 # -----------------------------------------------------------------------------
 
+# Declare the top-level data and output paths
+data_dir = Path("data")
+out_dir = Path("out", "shap")
+out_dir.mkdir(exist_ok=True, parents=True)
+
 # Point to the data file
-data_file = Path("data", "neurogenetic.csv")
+data_file = data_dir.joinpath("neurogenetic.csv")
+
+# Name the output files
+out_shap = out_dir.joinpath("shap_summary_plot.png")
+
+# Set the DPI for each plot
+DPI = 600
 
 # -----------------------------------------------------------------------------
 # EXPERIMENT
@@ -96,13 +107,18 @@ for label in clf.classes_:
 class_names = [class_label_to_disease[label] for label in clf.classes_]
 
 # Summarize the feature importance with class names in the legend
-shap.summary_plot(shap_values, X_test, feature_names=X.columns, class_names=class_names, max_display=10)
-
+shap.summary_plot(
+    shap_values,
+    X_test,
+    feature_names=X.columns,
+    class_names=class_names,
+    max_display=10,
+    show=False,
+)
 
 # Save the plot to a file
-plt.savefig('shap_summary_plot.png', dpi=600)  # Adjust the file name and DPI as needed
+plt.tight_layout()
+plt.savefig(out_shap, dpi=DPI)  # Adjust the file name and DPI as needed
 
 # Show the plot
 plt.show()
-
-

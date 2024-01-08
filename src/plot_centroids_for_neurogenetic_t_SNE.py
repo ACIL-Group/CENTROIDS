@@ -1,5 +1,8 @@
 """
+    plot_centroids_for_neurogenetic_t_SNE.py
 
+# Attribution
+Author: Daniel B. Hier MD
 """
 
 # -----------------------------------------------------------------------------
@@ -18,8 +21,21 @@ from pathlib import Path
 # CONFIGURATION
 # -----------------------------------------------------------------------------
 
+# Declare the top-level data and output paths
+data_dir = Path("data")
+out_dir = Path("out", "centroids")
+out_dir.mkdir(exist_ok=True, parents=True)
+
 # Point to the data file
-data_file = Path("data", "neurogenetic.csv")
+data_file = data_dir.joinpath("neurogenetic.csv")
+
+# Name the output files
+out_binary_coded_csv = out_dir.joinpath("neurogenetic_diseases_binary_coded.csv")
+out_coordinate_csv = out_dir.joinpath("neurogenetic_diseases_coordinate.csv")
+out_centroids = out_dir.joinpath('t_SNE_centroids_neurogenetic')
+
+# Set the DPI for each plot
+DPI = 600
 
 # -----------------------------------------------------------------------------
 # EXPERIMENT
@@ -40,7 +56,7 @@ features = features.applymap(lambda x: 1 if x > 0 else 0)
 # Define custom colors for each group
 # Concatenate the labels DataFrame and tsne_df along the columns axis
 merged_df = pd.concat([labels, features], axis=1)
-merged_df.to_csv('neurogenetic_diseases_binary_coded.csv')
+merged_df.to_csv(out_binary_coded_csv)
 # Now, merged_df contains four columns: 'type', 'name', 'tsne_dim1', and 'tsne_dim2'
 # Sort the merged_df by the 'type' column
 
@@ -64,11 +80,8 @@ label_to_color = {label: custom_colors[i] for i, label in enumerate(unique_label
 # Map labels to custom colors
 label_colors = [label_to_color[label] for label in labels['type']]
 
-
-
 #Create a scatter plot for merged_features_means
 plt.figure(figsize=(10, 6))  # Adjust the figure size if needed
-
 
 # Create a scatter plot with custom colors for each group
 plt.scatter(tsne_result[:, 0], tsne_result[:, 1], c=label_colors)
@@ -83,17 +96,16 @@ legend = plt.legend(handles=legend_handles, labels=label_to_color.keys(), loc='u
 legend.get_frame().set_edgecolor('0.5')  # Set the edge color of the legend box
 legend.get_frame().set_linewidth(0.5)   # Set the edge linewidth of the legend box
 
-
-
 #plt.title(f't-SNE plot (Perplexity={perplexity}, Initialization={initialize})')
 plt.xlabel('t-SNE Dimension 1', fontsize=12, fontweight='bold')
 plt.ylabel('t-SNE Dimension 2', fontsize=12, fontweight='bold')
 plt.grid(True)
 plot_type='t_SNE_'+str(perplexity)+'_'+str(initialize)
 group_type='neurogenetic'
-filename =plot_type + '_' + group_type +"_no_annotations"
+# filename = plot_type + '_' + group_type +"_no_annotations"
+filename = out_dir.joinpath(plot_type + '_' + group_type +"_no_annotations")
 # Save the plot as an image file with a higher dpi value and adjusted legend position
-plt.savefig(filename, dpi=600, bbox_inches='tight', bbox_extra_artists=[legend])
+plt.savefig(filename, dpi=DPI, bbox_inches='tight', bbox_extra_artists=[legend])
 plt.show()
 
 #--------------------------------------End of First Plot------------------------------------
@@ -131,11 +143,9 @@ legend = plt.legend(handles=legend_handles, labels=label_to_color.keys(), loc='u
 legend.get_frame().set_edgecolor('0.5')  # Set the edge color of the legend box
 legend.get_frame().set_linewidth(0.5)   # Set the edge linewidth of the legend box
 
-
 #plt.title(f't-SNE plot (Perplexity={perplexity}, Initialization={initialize})')
 plt.xlabel('t-SNE Dimension 1',fontsize=12, fontweight='bold')
 plt.ylabel('t-SNE Dimension 2', fontsize=12, fontweight='bold')
-
 
 # List of features to consider
 features_to_consider = ['hyperreflexia','sensory','hypertonia', 'hyporeflexia','eye_movements','incoordination','atrophy','tremor','weakness']
@@ -174,13 +184,15 @@ print(features_means)
 plt.grid(True)
 plot_type='t_SNE_'+str(perplexity)+'_'+str(initialize)
 group_type='neurogenetic'
-filename =plot_type + '_' + group_type
+# filename =plot_type + '_' + group_type
+filename = out_dir.joinpath(plot_type + '_' + group_type)
 # Save the plot as an image file with a higher dpi value and adjusted legend position
-plt.savefig(filename, dpi=600, bbox_inches='tight', bbox_extra_artists=[legend])
+plt.savefig(filename, dpi=DPI, bbox_inches='tight', bbox_extra_artists=[legend])
 
 plt.show()
 # Assuming you have a DataFrame named 'df'
-features_means.to_csv(filename + '.csv', index=False)  # Use index=False to exclude row numbers in the output
+# features_means.to_csv(filename + '.csv', index=False)  # Use index=False to exclude row numbers in the output
+features_means.to_csv(filename.with_suffix('.csv'), index=False)  # Use index=False to exclude row numbers in the output
 
 #--------------------------------------End Second Plot with Feature Centroids-------------------------------
 #--------------------------------------Begin Third Plot with Class Swarm replaced by Class Centroids-------
@@ -194,7 +206,8 @@ tsne_df = pd.DataFrame(tsne_result, columns=['tsne_dim1', 'tsne_dim2'])
 
 # Concatenate the labels DataFrame and tsne_df along the columns axis
 merged_df = pd.concat([labels, tsne_df], axis=1)
-merged_df.to_csv('neurogenetic_diseases_coordinate.csv')
+merged_df.to_csv(out_coordinate_csv)
+
 # Now, merged_df contains four columns: 'type', 'name', 'tsne_dim1', and 'tsne_dim2'
 # Sort the merged_df by the 'type' column
 sorted_merged_df = merged_df.sort_values(by='type')
@@ -211,8 +224,6 @@ mean_df.columns = ['Feature', 'Mean_X', 'Mean_Y']
 merged_features_means = pd.concat([features_means, mean_df], ignore_index=True)
 
 # Now merged_features_means will have the same columns: 'Feature', 'Mean_X', and 'Mean_Y'
-
-
 
 # Define a dictionary to map feature labels to custom colors
 feature_colors = {'CA': 'dodgerblue', 'CMT': 'olive', 'HSP': 'magenta'}
@@ -232,7 +243,6 @@ legend = plt.legend(handles=legend_handles, labels=label_to_color.keys(), loc='u
 # Adjust the legend box properties
 legend.get_frame().set_edgecolor('0.5')  # Set the edge color of the legend box
 legend.get_frame().set_linewidth(0.5)   # Set the edge linewidth of the legend box
-
 
 # Loop through each row in merged_features_means
 for index, row in merged_features_means.iterrows():
@@ -299,6 +309,6 @@ plt.ylabel('Mean_Y',  fontsize=12, fontweight='bold')
 #filename='centroids_neurogenetic_t_sne_'
 # Show the plot
 plt.grid(True)
-plt.savefig('t_SNE_+centroids_'+'neurogenetic', dpi=600, bbox_inches='tight', bbox_extra_artists=[legend])
+# plt.savefig('t_SNE_+centroids_'+'neurogenetic', dpi=DPI, bbox_inches='tight', bbox_extra_artists=[legend])
+plt.savefig(out_centroids, dpi=DPI, bbox_inches='tight', bbox_extra_artists=[legend])
 plt.show()
-

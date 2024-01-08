@@ -23,8 +23,21 @@ from pathlib import Path
 # CONFIGURATION
 # -----------------------------------------------------------------------------
 
-# Point to the data file
-data_file = Path("data", "neurogenetic.csv")
+# Declare the top-level data and output paths
+data_dir = Path("data")
+out_dir = Path("out", "kmeans")
+out_dir.mkdir(exist_ok=True, parents=True)
+
+# Point to the input data file
+data_file = data_dir.joinpath("neurogenetic.csv")
+
+# Name the output files
+out_cluster_scatter = out_dir.joinpath("k_means_clustering_neurogenetic_scatter.png")
+out_cluster_centroids = out_dir.joinpath("k_means_clustering_neurogenetic_centroids")
+out_truth_scatter = out_dir.joinpath("k_means_ground_truth_neurogenetic_scatter.png")
+
+# Set the DPI for each plot
+DPI = 600
 
 # -----------------------------------------------------------------------------
 # EXPERIMENT
@@ -83,7 +96,7 @@ legend_handles = [plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=co
 
 # Add the custom legend to the plot
 plt.legend(handles=legend_handles, loc='upper left', fontsize=14)
-plt.savefig('k_means_clustering_neurogenetic_scatter.png', dpi=600)
+plt.savefig(out_cluster_scatter, dpi=DPI)
 
 plt.grid()
 plt.show()
@@ -124,7 +137,7 @@ ground_truth_legend_handles = [plt.Line2D([0], [0], marker='o', color='w', marke
 # Add the custom legend to the plot
 plt.legend(handles=ground_truth_legend_handles,fontsize=14, loc='upper left')
 plt.grid()
-plt.savefig('k_means_ground_truth_neurogenetic_scatter.png', dpi=600)
+plt.savefig(out_truth_scatter, dpi=DPI)
 
 plt.show()
 
@@ -230,6 +243,6 @@ plt.ylabel('Mean_Y', fontsize=12, fontweight='bold')
 
 #plt.title('K Means Clustering and Ground Truth Centroids')
 
-plt.savefig('k_means_clustering_neurogenetic_centroids.png', dpi=600)
+plt.savefig(out_cluster_centroids, dpi=DPI)
 
 plt.show()
