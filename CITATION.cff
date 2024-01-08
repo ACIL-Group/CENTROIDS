@@ -1,0 +1,46 @@
+title: "ACIL-Group/CENTROIDS"
+abstract: "A repository of code and data for the paper *Enhancing Dimension-Reduced Scatter Plots with Class and Feature Centroids*"
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+keywords:
+  - "Knowledge Graphs"
+  - "Ontologies"
+  - "Graphs"
+authors:
+  - family-names: "Hier"
+    given-names: "Daniel"
+    orcid: https://orcid.org/0000-0002-6179-0793
+    email: "hierd@mst.edu"
+    alias: "dbhier"
+    affiliation: "Missouri University of Science and Technology"
+  - family-names: "Obafemi-Ajayi"
+    given-names: "Tayo"
+    orcid: https://orcid.org/0000-0002-0155-9733
+    email: "tayoobafemiajayi@missouristate.edu"
+    affiliation: "Missouri State University"
+  - family-names: "Olbricht"
+    given-names: "Gayla"
+  - family-names: "Burns"
+    given-names: "Devin"
+  - family-names: "Petrenko"
+    given-names: "Sasha"
+    orcid: https://orcid.org/0000-0003-2442-8901
+    website: "https://ap6yc.github.io/"
+    email: "sap625@mst.edu"
+    alias: "AP6YC"
+    affiliation: "Missouri University of Science and Technology"
+  - family-names: "Wunsch"
+    given-names: "Donald"
+    name-suffix: "II"
+    orcid: https://orcid.org/0000-0002-9726-9051
+    email: "dwunsch@mst.edu"
+    affiliation: "Missouri University of Science and Technology"
+
+doi: 10.5281/zenodo.10465863
+date-released: 2024-01-06
+url: "https://doi.org/10.5281/zenodo.10465863"
+repository-code: "https://github.com/ACIL-Group/KGO"
+identifiers:
+  - description: "The DOI of the latest KGO Zenodo archive."
+    type: "doi"
+    value: "10.5281/zenodo.10465863"
