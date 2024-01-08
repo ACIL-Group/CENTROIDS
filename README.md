@@ -2,7 +2,10 @@
 
 Code and data for the paper "Enhancing Dimension-Reduced Scatter Plots with Class and Feature Centroids."
 
+## Table of Contents
+
 - [CENTROIDS](#centroids)
+  - [Table of Contents](#table-of-contents)
   - [Summary](#summary)
   - [Usage](#usage)
     - [Setup](#setup)

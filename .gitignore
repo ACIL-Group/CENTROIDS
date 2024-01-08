@@ -2,6 +2,9 @@
 # PROJECT IGNORES
 # -----------------------------------------------------------------------------
 
+# Drafting space
+_dev/
+
 # Generated files
 out/*
 !out/.gitkeep

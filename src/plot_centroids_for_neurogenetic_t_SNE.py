@@ -301,12 +301,12 @@ for index, row in merged_features_means.iterrows():
         marker_size = 50  # Set the marker size to 20
         plt.scatter(row['Mean_X'], row['Mean_Y'], s=marker_size, c=color)
 
-
 # Add labels and title
 plt.xlabel('Mean_X', fontsize=12, fontweight='bold')
 plt.ylabel('Mean_Y',  fontsize=12, fontweight='bold')
 #plt.title('Plot of Disease and Feature Centroids for Neurogenetic Diseases')
 #filename='centroids_neurogenetic_t_sne_'
+
 # Show the plot
 plt.grid(True)
 # plt.savefig('t_SNE_+centroids_'+'neurogenetic', dpi=DPI, bbox_inches='tight', bbox_extra_artists=[legend])
