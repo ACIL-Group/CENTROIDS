@@ -2,6 +2,9 @@
 # PROJECT IGNORES
 # -----------------------------------------------------------------------------
 
+# IDE ignores
+.vscode/
+
 # Drafting space
 _dev/
 

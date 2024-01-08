@@ -12,9 +12,9 @@ Author: Daniel B. Hier MD
 from adjustText import adjust_text
 import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 from sklearn.manifold import TSNE
 import numpy as np
-from adjustText import adjust_text
 from pathlib import Path
 
 # -----------------------------------------------------------------------------
@@ -52,7 +52,8 @@ neurogenetic = pd.read_csv(data_file)
 labels = neurogenetic[['type', 'name']]
 features = neurogenetic.iloc[:, 2:]
 # Convert feature values to 0 or 1
-features = features.applymap(lambda x: 1 if x > 0 else 0)
+# features = features.applymap(lambda x: 1 if x > 0 else 0)
+features = features.map(lambda x: 1 if x > 0 else 0)
 # Define custom colors for each group
 # Concatenate the labels DataFrame and tsne_df along the columns axis
 merged_df = pd.concat([labels, features], axis=1)
@@ -80,14 +81,14 @@ label_to_color = {label: custom_colors[i] for i, label in enumerate(unique_label
 # Map labels to custom colors
 label_colors = [label_to_color[label] for label in labels['type']]
 
-#Create a scatter plot for merged_features_means
+# Create a scatter plot for merged_features_means
 plt.figure(figsize=(10, 6))  # Adjust the figure size if needed
 
 # Create a scatter plot with custom colors for each group
 plt.scatter(tsne_result[:, 0], tsne_result[:, 1], c=label_colors)
 
 # Create a legend using dummy points with a smaller font size and smaller markers
-legend_handles = [plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=color, label=label, markersize=14) for label, color in label_to_color.items()]
+legend_handles = [Line2D([0], [0], marker='o', color='w', markerfacecolor=color, label=label, markersize=14) for label, color in label_to_color.items()]
 
 # Add the legend to the plot
 legend = plt.legend(handles=legend_handles, labels=label_to_color.keys(), loc='upper right')
@@ -96,20 +97,20 @@ legend = plt.legend(handles=legend_handles, labels=label_to_color.keys(), loc='u
 legend.get_frame().set_edgecolor('0.5')  # Set the edge color of the legend box
 legend.get_frame().set_linewidth(0.5)   # Set the edge linewidth of the legend box
 
-#plt.title(f't-SNE plot (Perplexity={perplexity}, Initialization={initialize})')
+# plt.title(f't-SNE plot (Perplexity={perplexity}, Initialization={initialize})')
 plt.xlabel('t-SNE Dimension 1', fontsize=12, fontweight='bold')
 plt.ylabel('t-SNE Dimension 2', fontsize=12, fontweight='bold')
 plt.grid(True)
-plot_type='t_SNE_'+str(perplexity)+'_'+str(initialize)
-group_type='neurogenetic'
+plot_type = 't_SNE_'+str(perplexity)+'_'+str(initialize)
+group_type = 'neurogenetic'
 # filename = plot_type + '_' + group_type +"_no_annotations"
-filename = out_dir.joinpath(plot_type + '_' + group_type +"_no_annotations")
+filename = out_dir.joinpath(plot_type + '_' + group_type + "_no_annotations")
 # Save the plot as an image file with a higher dpi value and adjusted legend position
 plt.savefig(filename, dpi=DPI, bbox_inches='tight', bbox_extra_artists=[legend])
 plt.show()
 
-#--------------------------------------End of First Plot------------------------------------
-#--------------------------------------Begin Annotating Feature Centroids for Second Plot---
+# --------------------------------------End of First Plot------------------------------------
+# --------------------------------------Begin Annotating Feature Centroids for Second Plot---
 custom_colors = ['dodgerblue', 'olive', 'magenta']
 # Define a list of perplexity values to loop through
 perplexity = 50
@@ -125,7 +126,7 @@ unique_labels = labels['type'].unique()
 label_to_color = {label: custom_colors[i] for i, label in enumerate(unique_labels)}
 # Map labels to custom colors
 label_colors = [label_to_color[label] for label in labels['type']]
-#Create a scatter plot for merged_features_means
+# Create a scatter plot for merged_features_means
 
 plt.figure(figsize=(10, 6))  # Adjust the figure size if needed
 # Create a scatter plot with custom colors for each group
@@ -134,7 +135,7 @@ plt.figure(figsize=(10, 6))  # Adjust the figure size if needed
 plt.scatter(tsne_result[:, 0], tsne_result[:, 1], c=label_colors)
 
 # Create a legend using dummy points with a smaller font size and smaller markers
-legend_handles = [plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=color, label=label, markersize=14) for label, color in label_to_color.items()]
+legend_handles = [Line2D([0], [0], marker='o', color='w', markerfacecolor=color, label=label, markersize=14) for label, color in label_to_color.items()]
 
 # Add the legend to the plot
 legend = plt.legend(handles=legend_handles, labels=label_to_color.keys(), loc='upper right')
@@ -143,12 +144,22 @@ legend = plt.legend(handles=legend_handles, labels=label_to_color.keys(), loc='u
 legend.get_frame().set_edgecolor('0.5')  # Set the edge color of the legend box
 legend.get_frame().set_linewidth(0.5)   # Set the edge linewidth of the legend box
 
-#plt.title(f't-SNE plot (Perplexity={perplexity}, Initialization={initialize})')
-plt.xlabel('t-SNE Dimension 1',fontsize=12, fontweight='bold')
+# plt.title(f't-SNE plot (Perplexity={perplexity}, Initialization={initialize})')
+plt.xlabel('t-SNE Dimension 1', fontsize=12, fontweight='bold')
 plt.ylabel('t-SNE Dimension 2', fontsize=12, fontweight='bold')
 
 # List of features to consider
-features_to_consider = ['hyperreflexia','sensory','hypertonia', 'hyporeflexia','eye_movements','incoordination','atrophy','tremor','weakness']
+features_to_consider = [
+    'hyperreflexia',
+    'sensory',
+    'hypertonia',
+    'hyporeflexia',
+    'eye_movements',
+    'incoordination',
+    'atrophy',
+    'tremor',
+    'weakness',
+]
 
 # Initialize a list to store annotation texts
 annotation_texts = []
@@ -182,8 +193,8 @@ adjust_text(
 
 print(features_means)
 plt.grid(True)
-plot_type='t_SNE_'+str(perplexity)+'_'+str(initialize)
-group_type='neurogenetic'
+plot_type = 't_SNE_'+str(perplexity)+'_'+str(initialize)
+group_type = 'neurogenetic'
 # filename =plot_type + '_' + group_type
 filename = out_dir.joinpath(plot_type + '_' + group_type)
 # Save the plot as an image file with a higher dpi value and adjusted legend position
@@ -194,8 +205,8 @@ plt.show()
 # features_means.to_csv(filename + '.csv', index=False)  # Use index=False to exclude row numbers in the output
 features_means.to_csv(filename.with_suffix('.csv'), index=False)  # Use index=False to exclude row numbers in the output
 
-#--------------------------------------End Second Plot with Feature Centroids-------------------------------
-#--------------------------------------Begin Third Plot with Class Swarm replaced by Class Centroids-------
+# --------------------------------------End Second Plot with Feature Centroids-------------------------------
+# --------------------------------------Begin Third Plot with Class Swarm replaced by Class Centroids-------
 # Create a DataFrame from tsne_result with appropriate column names
 # Clear the current figure to remove all previous markers and elements
 plt.clf()
@@ -232,10 +243,10 @@ feature_colors = {'CA': 'dodgerblue', 'CMT': 'olive', 'HSP': 'magenta'}
 plt.figure(figsize=(10, 6))  # Adjust the figure size if needed
 
 # Create a scatter plot with custom colors for each group
-#plt.scatter(tsne_result[:, 0], tsne_result[:, 1], c=label_colors)
+# plt.scatter(tsne_result[:, 0], tsne_result[:, 1], c=label_colors)
 
 # Create a legend using dummy points with a smaller font size and smaller markers
-legend_handles = [plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=color, label=label, markersize=14) for label, color in label_to_color.items()]
+legend_handles = [Line2D([0], [0], marker='o', color='w', markerfacecolor=color, label=label, markersize=14) for label, color in label_to_color.items()]
 
 # Add the legend to the plot
 legend = plt.legend(handles=legend_handles, labels=label_to_color.keys(), loc='upper right')
@@ -256,56 +267,56 @@ for index, row in merged_features_means.iterrows():
         # For "cerebellar ataxia," adjust the label position and arrow
         label = r'$\bf{cerebellar\  ataxia}$'
         plt.annotate(label, (row['Mean_X'], row['Mean_Y']), xytext=(60, -90), textcoords="offset points",
-                     arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=0.2"), ha='center',fontsize=14)
+                     arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=0.2"), ha='center', fontsize=14)
         marker_size = 400  # Set the marker size to 20
         plt.scatter(row['Mean_X'], row['Mean_Y'], s=marker_size, c=color)
     elif label == 'HSP':
         # For "spastic paraparesis," adjust the label position and arrow
         label = r'$\bf{hereditary\  spastic\  paraparesis}$'
         plt.annotate(label, (row['Mean_X'], row['Mean_Y']), xytext=(100, 30), textcoords="offset points",
-                     arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=0.2"), ha='center',fontsize=14)
+                     arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=0.2"), ha='center', fontsize=14)
         marker_size = 400  # Set the marker size to 20
         plt.scatter(row['Mean_X'], row['Mean_Y'], s=marker_size, c=color)
     elif label == 'CMT':
         # For "Charcot-Marie-Tooth," adjust the label position and arrow
         label = r'$\bf{Charcot-Marie-Tooth}$'
         plt.annotate(label, (row['Mean_X'], row['Mean_Y']), xytext=(-80, -80), textcoords="offset points",
-                     arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=0.2"), ha='center',fontsize=14)
+                     arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=0.2"), ha='center', fontsize=14)
         marker_size = 400  # Set the marker size to 20
         plt.scatter(row['Mean_X'], row['Mean_Y'], s=marker_size, c=color)
     elif label == 'incoordination':
-            # For "incoordination," adjust the label position and arrow
-            plt.annotate(label, (row['Mean_X'], row['Mean_Y']), xytext=(50, -20), textcoords="offset points",
-                         arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=0.2"), ha='center',fontsize=14)
-            marker_size = 50  # Set the marker size to 20
-            plt.scatter(row['Mean_X'], row['Mean_Y'], s=marker_size, c=color)
+        # For "incoordination," adjust the label position and arrow
+        plt.annotate(label, (row['Mean_X'], row['Mean_Y']), xytext=(50, -20), textcoords="offset points",
+            arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=0.2"), ha='center', fontsize=14)
+        marker_size = 50  # Set the marker size to 20
+        plt.scatter(row['Mean_X'], row['Mean_Y'], s=marker_size, c=color)
     elif label == 'eye_movements':
-                label = 'eye movements'
-                # For "incoordination," adjust the label position and arrow
-                plt.annotate(label, (row['Mean_X'], row['Mean_Y']), xytext=(60, -20), textcoords="offset points",
-                             arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=0.2"), ha='center',fontsize=14)
-                marker_size = 50  # Set the marker size to 20
-                plt.scatter(row['Mean_X'], row['Mean_Y'], s=marker_size, c=color)
+        label = 'eye movements'
+        # For "incoordination," adjust the label position and arrow
+        plt.annotate(label, (row['Mean_X'], row['Mean_Y']), xytext=(60, -20), textcoords="offset points",
+            arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=0.2"), ha='center', fontsize=14)
+        marker_size = 50  # Set the marker size to 20
+        plt.scatter(row['Mean_X'], row['Mean_Y'], s=marker_size, c=color)
     elif label == 'tremor':
-                  label = 'tremor'
-                  # For "incoordination," adjust the label position and arrow
-                  plt.annotate(label, (row['Mean_X'], row['Mean_Y']), xytext=(60, -20), textcoords="offset points",
-                               arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=0.2"), ha='center',fontsize=14)
-                  marker_size = 50  # Set the marker size to 20
-                  plt.scatter(row['Mean_X'], row['Mean_Y'], s=marker_size, c=color)
+        label = 'tremor'
+        # For "incoordination," adjust the label position and arrow
+        plt.annotate(label, (row['Mean_X'], row['Mean_Y']), xytext=(60, -20), textcoords="offset points",
+            arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=0.2"), ha='center', fontsize=14)
+        marker_size = 50  # Set the marker size to 20
+        plt.scatter(row['Mean_X'], row['Mean_Y'], s=marker_size, c=color)
 
     else:
         # For other labels, use the same settings as before
         plt.annotate(label, (row['Mean_X'], row['Mean_Y']), xytext=(-50, 10), textcoords="offset points",
-                     arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=0.2"), ha='center', fontsize=14)
+            arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=0.2"), ha='center', fontsize=14)
         marker_size = 50  # Set the marker size to 20
         plt.scatter(row['Mean_X'], row['Mean_Y'], s=marker_size, c=color)
 
 # Add labels and title
 plt.xlabel('Mean_X', fontsize=12, fontweight='bold')
 plt.ylabel('Mean_Y',  fontsize=12, fontweight='bold')
-#plt.title('Plot of Disease and Feature Centroids for Neurogenetic Diseases')
-#filename='centroids_neurogenetic_t_sne_'
+# plt.title('Plot of Disease and Feature Centroids for Neurogenetic Diseases')
+# filename='centroids_neurogenetic_t_sne_'
 
 # Show the plot
 plt.grid(True)

@@ -54,7 +54,8 @@ labels = neurogenetic[['type', 'name']]
 features = neurogenetic.iloc[:, 2:]
 
 # Convert feature values to 0 or 1
-features = features.applymap(lambda x: 1 if x > 0 else 0)
+# features = features.applymap(lambda x: 1 if x > 0 else 0)
+features = features.map(lambda x: 1 if x > 0 else 0)
 
 # Concatenate 'features' and 'labels' along the columns axis
 df_neurogenetic = pd.concat([labels, features], axis=1)
@@ -94,9 +95,9 @@ shap_values = explainer.shap_values(X_test)
 
 # Create a mapping from encoded class labels to disease names
 class_label_to_disease = {label: disease for label, disease in zip(label_encoder.classes_, df_neurogenetic['type'])}
-class_label_to_disease[0]='CA'
-class_label_to_disease[1]='CMT'
-class_label_to_disease[2]='HSP'
+class_label_to_disease[0] = 'CA'
+class_label_to_disease[1] = 'CMT'
+class_label_to_disease[2] = 'HSP'
 # Ensure all class labels in clf.classes_ are in the mapping dictionary
 for label in clf.classes_:
     if label not in class_label_to_disease:

@@ -15,6 +15,7 @@ Created on Thu Dec 7 20:48:12 2023
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 from sklearn.cluster import KMeans
 import umap.umap_ as umap  # Corrected import statement
 from pathlib import Path
@@ -52,7 +53,8 @@ features = neurogenetic.iloc[:, 2:]
 ground_truth_labels = neurogenetic['type']
 
 # Convert feature values to binary (0 or 1)
-features = features.applymap(lambda x: 1 if x > 0 else 0)
+# features = features.applymap(lambda x: 1 if x > 0 else 0)
+features = features.map(lambda x: 1 if x > 0 else 0)
 X = features
 
 # Perform K-Means clustering (set the number of clusters, e.g., 3)
@@ -86,12 +88,12 @@ scatter = plt.scatter(umap_result_2[:, 0],
 plt.xlabel('UMAP Dimension 1', fontsize=12, fontweight='bold')
 plt.ylabel('UMAP Dimension 2', fontsize=12, fontweight='bold')
 
-#plt.title('UMAP with K Means Clustering')
+# plt.title('UMAP with K Means Clustering')
 
 # Create a custom legend mapping cluster numbers to colors
 legend_labels = [f'Cluster {cluster_num}' for cluster_num in range(
     1, max(cluster_labels_int) + 1)]
-legend_handles = [plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=color, markersize=14, label=label)
+legend_handles = [Line2D([0], [0], marker='o', color='w', markerfacecolor=color, markersize=14, label=label)
                   for color, label in zip(cluster_colors.values(), legend_labels)]
 
 # Add the custom legend to the plot
@@ -101,10 +103,14 @@ plt.savefig(out_cluster_scatter, dpi=DPI)
 plt.grid()
 plt.show()
 
-
 # Create a UMAP model for ground_truth_labels
 umap_ground_truth = umap.UMAP(
-n_components=2, n_neighbors=5, min_dist=0.3, metric='euclidean', random_state=42)
+    n_components=2,
+    n_neighbors=5,
+    min_dist=0.3,
+    metric='euclidean',
+    random_state=42,
+)
 
 # Fit the UMAP model to your binary feature matrix and transform it to the lower-dimensional space
 umap_result_ground_truth = umap_ground_truth.fit_transform(X)
@@ -120,28 +126,28 @@ ground_truth_marker_colors = [ground_truth_colors[label]
 # Create a scatter plot for ground truth labels
 plt.figure(figsize=(10, 6))
 scatter_ground_truth = plt.scatter(
-    umap_result_ground_truth[:, 0], umap_result_ground_truth[:, 1], c=ground_truth_marker_colors)
-
+    umap_result_ground_truth[:, 0],
+    umap_result_ground_truth[:, 1],
+    c=ground_truth_marker_colors,
+)
 
 plt.xlabel('UMAP Dimension 1', fontsize=12, fontweight='bold')
 plt.ylabel('UMAP Dimension 2', fontsize=12, fontweight='bold')
 
-#plt.title('UMAP with Ground Truth Labels')
+# plt.title('UMAP with Ground Truth Labels')
 
 # Create a custom legend mapping ground truth labels to colors
 # Adjust the labels as needed based on your ground truth labels
 ground_truth_legend_labels = ['CMT', 'CA', 'HSP']
-ground_truth_legend_handles = [plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=color, markersize=14, label=label)
+ground_truth_legend_handles = [Line2D([0], [0], marker='o', color='w', markerfacecolor=color, markersize=14, label=label)
                                for color, label in zip(ground_truth_colors.values(), ground_truth_legend_labels)]
 
 # Add the custom legend to the plot
-plt.legend(handles=ground_truth_legend_handles,fontsize=14, loc='upper left')
+plt.legend(handles=ground_truth_legend_handles, fontsize=14, loc='upper left')
 plt.grid()
 plt.savefig(out_truth_scatter, dpi=DPI)
 
 plt.show()
-
-
 
 # Concatenate the cluster labels to the UMAP result with ground_truth labels
 umap_result_with_labels = np.column_stack((umap_result_2, ground_truth_labels))
@@ -236,12 +242,12 @@ for i, row in feature_centroids.iterrows():
 # ... Set x-axis and y-axis limits, labels, title, and save the plot ...
 
 # Add the legend for the ground_truth centroids
-#plt.legend(labels=ground_truth_centroids['ground_truth_labels'], loc='lower left')
+# plt.legend(labels=ground_truth_centroids['ground_truth_labels'], loc='lower left')
 plt.grid()
 plt.xlabel('Mean_X', fontsize=12, fontweight='bold')
 plt.ylabel('Mean_Y', fontsize=12, fontweight='bold')
 
-#plt.title('K Means Clustering and Ground Truth Centroids')
+# plt.title('K Means Clustering and Ground Truth Centroids')
 
 plt.savefig(out_cluster_centroids, dpi=DPI)
 

@@ -14,9 +14,9 @@ Author: Daniel B. Hier MD
 # DEPENDENCIES
 # -----------------------------------------------------------------------------
 
-import os
 import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle
 from pathlib import Path
 
 # -----------------------------------------------------------------------------
@@ -50,7 +50,9 @@ labels = neurogenetic[['type', 'name']]
 features = neurogenetic.iloc[:, 2:]
 
 # Convert feature values to 0 or 1
-features = features.applymap(lambda x: 1 if x > 0 else 0)
+# features = features.applymap(lambda x: 1 if x > 0 else 0)
+features = features.map(lambda x: 1 if x > 0 else 0)
+
 # Define custom colors for each group
 # Concatenate the labels DataFrame and tsne_df along the columns axis
 merged_df = pd.concat([labels, features], axis=1)
@@ -61,7 +63,7 @@ merged_df.to_csv(out_csv)
 custom_colors = ['dodgerblue', 'olive', 'magenta']
 # Define a list of perplexity values to loop through
 
-#unique labels to colors using your custom colors
+# unique labels to colors using your custom colors
 unique_labels = labels['type'].unique()
 label_to_color = {label: custom_colors[i] for i, label in enumerate(unique_labels)}
 
@@ -91,7 +93,8 @@ plt.ylabel('Counts')
 plt.title('Phenotypes')
 
 # Rename the legend by disease type
-legend_labels = [plt.Rectangle((0,0),1,1, color=color) for color in custom_colors]
+# legend_labels = [plt.Rectangle((0,0),1,1, color=color) for color in custom_colors]
+legend_labels = [Rectangle((0, 0), 1, 1, color=color) for color in custom_colors]
 plt.legend(legend_labels, unique_labels, title='Disease', loc='upper right')
 
 # Show the chart
