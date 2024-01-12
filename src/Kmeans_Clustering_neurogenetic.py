@@ -58,7 +58,8 @@ def main(display=True):
 
     # Convert feature values to binary (0 or 1)
     # features = features.applymap(lambda x: 1 if x > 0 else 0)
-    features = features.map(lambda x: 1 if x > 0 else 0)
+    # features = features.map(lambda x: 1 if x > 0 else 0)
+    features = features.apply(lambda x: 1 if x > 0 else 0)
     X = features
 
     # Perform K-Means clustering (set the number of clusters, e.g., 3)
@@ -92,8 +93,10 @@ def main(display=True):
 
     # Create a scatter plot
     plt.figure(figsize=(10, 6))
-    scatter = plt.scatter(umap_result_2[:, 0],
-                        umap_result_2[:, 1], c=marker_colors)
+    scatter = plt.scatter(
+        umap_result_2[:, 0],
+        umap_result_2[:, 1], c=marker_colors
+    )
 
     plt.xlabel('UMAP Dimension 1', fontsize=12, fontweight='bold')
     plt.ylabel('UMAP Dimension 2', fontsize=12, fontweight='bold')

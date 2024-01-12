@@ -2,6 +2,19 @@
 
 Code and data for the paper "Enhancing Dimension-Reduced Scatter Plots with Class and Feature Centroids."
 
+| **Zenodo DOI** | **Test Status** | **Coverage** |
+|:--------------:|:---------------:|:------------:|
+| [![DOI][zenodo-img]][zenodo-url] | [![Build Status][ci-img]][ci-url] | [![Codecov][codecov-img]][codecov-url] |
+
+[zenodo-img]: https://zenodo.org/badge/DOI/10.5281/zenodo.10465863.svg
+[zenodo-url]: https://doi.org/10.5281/zenodo.10465863
+
+[ci-img]: https://github.com/ACIL-Group/CENTROIDS/actions/workflows/Test.yml/badge.svg
+[ci-url]: https://github.com/ACIL-Group/CENTROIDS/actions/workflows/Test.yml
+
+[codecov-img]: https://codecov.io/gh/ACIL-Group/CENTROIDS/branch/main/graph/badge.svg
+[codecov-url]: https://codecov.io/gh/ACIL-Group/CENTROIDS
+
 ## Table of Contents
 
 - [CENTROIDS](#centroids)
