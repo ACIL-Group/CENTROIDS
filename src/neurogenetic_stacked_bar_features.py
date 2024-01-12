@@ -54,7 +54,12 @@ def main(display=True):
 
     # Convert feature values to 0 or 1
     # features = features.applymap(lambda x: 1 if x > 0 else 0)
-    features = features.map(lambda x: 1 if x > 0 else 0)
+    # features = features.map(lambda x: 1 if x > 0 else 0)
+    try:
+        # pandas API changed at 2.1.0
+        features = features.map(lambda x: 1 if x > 0 else 0)
+    except AttributeError:
+        features = features.applymap(lambda x: 1 if x > 0 else 0)
 
     # Define custom colors for each group
     # Concatenate the labels DataFrame and tsne_df along the columns axis
