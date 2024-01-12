@@ -52,7 +52,8 @@ def main(display=True):
     neurogenetic = pd.read_csv(data_file)
 
     # Extract labels and features
-    labels = neurogenetic[['type', 'name']]
+    # labels = neurogenetic[['type', 'name']]
+    _ = neurogenetic[['type', 'name']]
     features = neurogenetic.iloc[:, 2:]
     ground_truth_labels = neurogenetic['type']
 
@@ -60,6 +61,7 @@ def main(display=True):
     # features = features.applymap(lambda x: 1 if x > 0 else 0)
     # features = features.map(lambda x: 1 if x > 0 else 0)
     try:
+        # pandas API changed at 2.1.0
         features = features.map(lambda x: 1 if x > 0 else 0)
     except AttributeError:
         features = features.applymap(lambda x: 1 if x > 0 else 0)
@@ -97,7 +99,8 @@ def main(display=True):
 
     # Create a scatter plot
     plt.figure(figsize=(10, 6))
-    scatter = plt.scatter(
+    # scatter = plt.scatter(
+    _ = plt.scatter(
         umap_result_2[:, 0],
         umap_result_2[:, 1], c=marker_colors
     )
@@ -108,17 +111,20 @@ def main(display=True):
     # plt.title('UMAP with K Means Clustering')
 
     # Create a custom legend mapping cluster numbers to colors
-    legend_labels = [f'Cluster {cluster_num}' for cluster_num in range(
-        1, max(cluster_labels_int) + 1)]
-    legend_handles = [Line2D([0], [0], marker='o', color='w', markerfacecolor=color, markersize=14, label=label)
-                    for color, label in zip(cluster_colors.values(), legend_labels)]
+    legend_labels = [
+        f'Cluster {cluster_num}' for cluster_num in range(1, max(cluster_labels_int) + 1)
+    ]
+    legend_handles = [
+        Line2D([0], [0], marker='o', color='w', markerfacecolor=color, markersize=14, label=label)
+        for color, label in zip(cluster_colors.values(), legend_labels)
+    ]
 
     # Add the custom legend to the plot
     plt.legend(handles=legend_handles, loc='upper left', fontsize=14)
     plt.savefig(out_cluster_scatter, dpi=DPI)
 
     plt.grid()
-    display and plt.show()
+    _ = display and plt.show()
 
     # Create a UMAP model for ground_truth_labels
     umap_ground_truth = umap.UMAP(
@@ -137,12 +143,15 @@ def main(display=True):
     ground_truth_colors = {'CMT': 'olive', 'CA': 'dodgerblue', 'HSP': 'magenta'}
 
     # Map ground truth labels to colors
-    ground_truth_marker_colors = [ground_truth_colors[label]
-                                for label in ground_truth_labels]
+    ground_truth_marker_colors = [
+        ground_truth_colors[label]
+        for label in ground_truth_labels
+    ]
 
     # Create a scatter plot for ground truth labels
     plt.figure(figsize=(10, 6))
-    scatter_ground_truth = plt.scatter(
+    # scatter_ground_truth = plt.scatter(
+    _ = plt.scatter(
         umap_result_ground_truth[:, 0],
         umap_result_ground_truth[:, 1],
         c=ground_truth_marker_colors,
@@ -156,15 +165,17 @@ def main(display=True):
     # Create a custom legend mapping ground truth labels to colors
     # Adjust the labels as needed based on your ground truth labels
     ground_truth_legend_labels = ['CMT', 'CA', 'HSP']
-    ground_truth_legend_handles = [Line2D([0], [0], marker='o', color='w', markerfacecolor=color, markersize=14, label=label)
-                                for color, label in zip(ground_truth_colors.values(), ground_truth_legend_labels)]
+    ground_truth_legend_handles = [
+        Line2D([0], [0], marker='o', color='w', markerfacecolor=color, markersize=14, label=label)
+        for color, label in zip(ground_truth_colors.values(), ground_truth_legend_labels)
+    ]
 
     # Add the custom legend to the plot
     plt.legend(handles=ground_truth_legend_handles, fontsize=14, loc='upper left')
     plt.grid()
     plt.savefig(out_truth_scatter, dpi=DPI)
 
-    display and plt.show()
+    _ = display and plt.show()
 
     # Concatenate the cluster labels to the UMAP result with ground_truth labels
     umap_result_with_labels = np.column_stack((umap_result_2, ground_truth_labels))
@@ -296,7 +307,7 @@ def main(display=True):
 
     plt.savefig(out_cluster_centroids, dpi=DPI)
 
-    display and plt.show()
+    _ = display and plt.show()
 
     return
 
