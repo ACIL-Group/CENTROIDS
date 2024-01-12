@@ -59,7 +59,11 @@ def main(display=True):
     # Convert feature values to binary (0 or 1)
     # features = features.applymap(lambda x: 1 if x > 0 else 0)
     # features = features.map(lambda x: 1 if x > 0 else 0)
-    features = features.apply(lambda x: 1 if x > 0 else 0)
+    try:
+        features = features.map(lambda x: 1 if x > 0 else 0)
+    except AttributeError:
+        features = features.applymap(lambda x: 1 if x > 0 else 0)
+
     X = features
 
     # Perform K-Means clustering (set the number of clusters, e.g., 3)
